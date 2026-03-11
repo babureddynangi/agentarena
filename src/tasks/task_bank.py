@@ -1,5 +1,5 @@
 """
-Task Bank — 100 empirical tasks aligned with the White Paper.
+Task Bank — 100 evaluation tasks aligned with the White Paper.
 Domains: Coding, Research, Planning, Logic, Data (20 tasks each).
 """
 

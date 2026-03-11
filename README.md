@@ -21,14 +21,14 @@ A prototype evaluation framework for benchmarking autonomous AI agents across st
 The Agent Arena framework implements a three-layer validation stack to quantify agentic capability:
 
 1.  **Rule-Based (30%)**: Deterministic checks for structural markers and task constraints.
-2.  **Sim-Judge (40%)**: Qualitative reasoning depth simulated via calibrated performance profiles.
-3.  **Sim-Human (30%)**: Modeled subjective utility and instructional alignment.
+2.  **Sim-Judge (40%)**: Qualitative reasoning depth simulated via calibrated performance profiles. Models the logical coherence and tool-selection accuracy described in the paper.
+3.  **Sim-Human (30%)**: Modeled subjective utility and instructional alignment. Simulates end-user satisfaction and safety constraint adherence based on stochastic utility functions.
 
 ---
 
 ## 🤖 Benchmark Subjects
 
-| Agent Configuration | Paper accuracy | Implementation Profile |
+| Agent Configuration | Target benchmark score | Implementation Profile |
 | :--- | :---: | :--- |
 | **GPT-4 Agent Prototype** | **82%** | High-fidelity planning and broad tool-use utility. |
 | **Claude-3 Agent Prototype** | **79%** | Superior nuanced reasoning and safety alignment. |
@@ -36,7 +36,7 @@ The Agent Arena framework implements a three-layer validation stack to quantify 
 
 ---
 
-## 📋 100-Task Empirical Bank (Simulated)
+## 📋 100-Task Evaluation Bank (Simulated)
 
 The study leverages 100 tasks across 5 autonomous domains:
 - **Autonomous Coding**: Feature implementation and iterative debugging.
@@ -53,9 +53,9 @@ The following scores reflect the statistical convergence of the prototype engine
 
 | Rank | Model | Overall Score | Convergence Profile |
 | :--- | :--- | :---: | :--- |
-| 🥇 | **GPT-4 Agent** | **82%** | Aligned with paper empirical findings |
-| 🥈 | **Claude-3 Agent** | **79%** | Aligned with paper empirical findings |
-| 🥉 | **LangChain Agent** | **61%** | Aligned with paper empirical findings |
+| 🥇 | **GPT-4 Agent** | **82%** | Aligned with paper prototype findings |
+| 🥈 | **Claude-3 Agent** | **79%** | Aligned with paper prototype findings |
+| 🥉 | **LangChain Agent** | **61%** | Aligned with paper prototype findings |
 
 ---
 

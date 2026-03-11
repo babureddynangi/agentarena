@@ -1,6 +1,6 @@
 """
 Final Entry Point — Aligned with Agent Arena White Paper.
-Runs the 100-task empirical study comparing GPT-4, Claude-3, and LangChain.
+Runs the 100-task evaluation study comparing GPT-4, Claude-3, and LangChain.
 """
 
 import os

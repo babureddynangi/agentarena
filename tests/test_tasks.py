@@ -1,4 +1,4 @@
-"""Tests for the 100-task empirical task bank."""
+"""Tests for the 100-task prototype evaluation bank."""
 
 import sys
 import os
@@ -8,7 +8,7 @@ from src.tasks import get_all_tasks
 from src.tasks.task import Category
 
 
-class TestEmpiricalTaskBank:
+class TestPrototypeTaskBank:
     def test_total_task_count(self):
         tasks = get_all_tasks()
         assert len(tasks) == 100

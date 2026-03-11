@@ -92,6 +92,6 @@ class ArenaRunner:
         print("=" * 100)
         winner = self.scoreboards[0]
         print(f"  🏆  LEADER (Simulation): {winner.agent_name} with {winner.avg_score:.2f}% Convergence")
-        print("  Note: Results reflect prototype simulation logic, not production empirical logs.")
+        print("  Note: Results reflect prototype simulation logic, not production evaluation logs.")
         print("=" * 100)
         print()

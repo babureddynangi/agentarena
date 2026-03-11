@@ -16,8 +16,8 @@ Current release uses **calibration profiles** and **structural rule validation**
 - **Agent Results**: Generated content includes randomized structural markers (`Methodology`, `Execution`) to test the scoring engine.
 - **Judge & Human Scores**: Calculated based on target performance factors (82%, 79%, 61%) plus stochastic variance.
 
-## 3. Empirical Results
-The results visible in the `Prototype Leaderboard` are **simulated evidence** intended to validate the benchmark's ability to differentiate between agents of varying quality as reported in the empirical study.
+## 3. Prototype Results
+The results visible in the `Prototype Leaderboard` are **simulated evidence** intended to validate the benchmark's ability to differentiate between agents of varying quality as reported in the prototype study.
 
 ## 4. Future Roadmap
 The framework is designed to transition to live evaluation:

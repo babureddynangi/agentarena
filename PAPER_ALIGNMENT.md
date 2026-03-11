@@ -19,14 +19,7 @@ Current release uses **calibration profiles** and **structural rule validation**
 ## 3. Prototype Results
 The results visible in the `Prototype Leaderboard` are **simulated evidence** intended to validate the benchmark's ability to differentiate between agents of varying quality as reported in the prototype study.
 
-## 4. Technical Implementation Details
-As referenced in the paper, several critical technical mechanisms support the evaluation pipeline:
-
-- **Injection-Stripping Filter (Section 11.5)**: A regex-based sanitation layer (`(?i)(ignore previous|system prompt|bypass)`) applied to agent outputs before structural evaluation to prevent common prompt-injection vectors from artificially inflating Rule Scores.
-- **Embedding Similarity (Section 11.2)**: Task duplication and domain overlap are minimized by clustering prompt templates using cosine similarity metrics computed via `text-embedding-3-small`. Prompts with >0.85 similarity are flagged for manual review or automated deprecation.
-- **Compute Budgets**: The simulated execution environment enforces a compute ceiling per agent configuration to ensure fair comparisons. This is modeled as a maximum limit of **4,000 output tokens per turn** and a hard cap of **3 maximum tool-call loops** before the agent's turn is truncated.
-
-## 5. Future Roadmap
+## 4. Future Roadmap
 The framework is designed to transition to live evaluation:
 - **Live LLM Integration**: Replacing simulated `solve()` methods with real API calls.
 - **LLM-as-Judge implementation**: Using specialized judge models for the 40% qualitative layer.

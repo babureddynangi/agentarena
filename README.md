@@ -59,6 +59,16 @@ The following scores reflect the statistical convergence of the prototype engine
 
 ---
 
+## ⚙️ Technical Implementation Details (Simulation Environment)
+
+To support the evaluation architecture described in the paper, this simulation enforces three key technical constraints:
+
+1.  **Injection-Stripping Filter (Section 11.5)**: A regex-based sanitation layer (`(?i)(ignore previous|system prompt|bypass)`) is applied to agent outputs before structural evaluation to prevent common prompt-injection vectors from artificially inflating Rule Scores.
+2.  **Embedding Similarity (Section 11.2)**: Task duplication and domain overlap are controlled by clustering prompt templates using cosine similarity metrics computed via `text-embedding-3-small`. Prompts with >0.85 similarity are flagged for manual review or automated deprecation.
+3.  **Compute Budgets**: The simulated execution environment enforces a compute ceiling per agent configuration to ensure fair comparisons. This is modeled as a maximum limit of **4,000 output tokens per turn** and a hard cap of **3 maximum tool-call loops** before the agent's turn is truncated.
+
+---
+
 ## 🧬 Reproducibility Section
 
 To replicate the simulation study results:
@@ -68,6 +78,7 @@ To replicate the simulation study results:
 4.  **Execution**: Run `python simulation_study.py`.
 
 ---
+
 
 ## 📁 Repository Structure
 

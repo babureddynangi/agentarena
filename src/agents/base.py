@@ -10,18 +10,16 @@ from typing import Any
 @dataclass
 class AgentResult:
     """Result returned by an agent after solving a task."""
-    answer: str
-    reasoning_trace: list[str] = field(default_factory=list)
-    steps_taken: int = 0
+    content: str
     metadata: dict[str, Any] = field(default_factory=dict)
-
+    
     @property
-    def has_answer(self) -> bool:
-        return self.answer is not None and self.answer.strip() != ""
+    def has_content(self) -> bool:
+        return self.content is not None and self.content.strip() != ""
 
 
 class BaseAgent(ABC):
-    """Abstract base class for all agents in the arena."""
+    """Abstract base class for all LLM agents in the arena."""
 
     def __init__(self, name: str, description: str):
         self._name = name
@@ -39,12 +37,6 @@ class BaseAgent(ABC):
     def solve(self, task) -> AgentResult:
         """
         Solve the given task and return an AgentResult.
-
-        Args:
-            task: A Task object with question, category, expected_answer, etc.
-
-        Returns:
-            AgentResult with the agent's answer, reasoning trace, and step count.
         """
         pass
 

@@ -1,27 +1,21 @@
 """
-Task Bank — 30 tasks across 5 categories for the Agent Arena.
+Task Bank — 30 tasks for the LLM Benchmark Arena.
 
 Categories:
-  1. Math & Logic        (tasks 1–6)
-  2. Text Processing     (tasks 7–12)
-  3. Code Understanding  (tasks 13–18)
-  4. Reasoning           (tasks 19–24)
-  5. Knowledge & Trivia  (tasks 25–30)
-
-Each category has 2 easy, 2 medium, and 2 hard tasks.
+  1. Book Writing      (tasks 1–10)
+  2. Website Builder   (tasks 11–20)
+  3. Bug Bounty        (tasks 21–30)
 """
 
 from .task import Task, Category, Difficulty, AnswerType
 
 
 def get_all_tasks() -> list[Task]:
-    """Return all 30 tasks."""
+    """Return all 30 benchmark tasks."""
     return (
-        _math_tasks()
-        + _text_tasks()
-        + _code_tasks()
-        + _reasoning_tasks()
-        + _knowledge_tasks()
+        _book_writing_tasks()
+        + _website_tasks()
+        + _bug_bounty_tasks()
     )
 
 
@@ -30,288 +24,46 @@ def get_tasks_by_category(category: Category) -> list[Task]:
     return [t for t in get_all_tasks() if t.category == category]
 
 
-# ═══════════════════════════════════════════════════════════════════
-# Category 1: Math & Logic
-# ═══════════════════════════════════════════════════════════════════
-
-def _math_tasks() -> list[Task]:
+def _book_writing_tasks() -> list[Task]:
     return [
-        Task(
-            id=1,
-            category=Category.MATH_LOGIC,
-            difficulty=Difficulty.EASY,
-            question="What is the sum of 15 and 27?",
-            expected_answer="42",
-            answer_type=AnswerType.NUMERIC,
-        ),
-        Task(
-            id=2,
-            category=Category.MATH_LOGIC,
-            difficulty=Difficulty.EASY,
-            question="What is the product of 8 and 7?",
-            expected_answer="56",
-            answer_type=AnswerType.NUMERIC,
-        ),
-        Task(
-            id=3,
-            category=Category.MATH_LOGIC,
-            difficulty=Difficulty.MEDIUM,
-            question="What is the factorial of 6?",
-            expected_answer="720",
-            answer_type=AnswerType.NUMERIC,
-        ),
-        Task(
-            id=4,
-            category=Category.MATH_LOGIC,
-            difficulty=Difficulty.MEDIUM,
-            question="What is the square root of 144?",
-            expected_answer="12",
-            answer_type=AnswerType.NUMERIC,
-        ),
-        Task(
-            id=5,
-            category=Category.MATH_LOGIC,
-            difficulty=Difficulty.HARD,
-            question="What is the 10th number in the Fibonacci sequence? (1, 1, 2, 3, 5, ...)",
-            expected_answer="55",
-            answer_type=AnswerType.NUMERIC,
-        ),
-        Task(
-            id=6,
-            category=Category.MATH_LOGIC,
-            difficulty=Difficulty.HARD,
-            question="How many prime numbers are there between 1 and 50?",
-            expected_answer="15",
-            answer_type=AnswerType.NUMERIC,
-        ),
+        Task(1, Category.BOOK_WRITING, Difficulty.EASY, "Write an opening paragraph for a noir detective novel set in foggy London.", "Mood, setting, character introduction"),
+        Task(2, Category.BOOK_WRITING, Difficulty.EASY, "Describe a magical artifact that allows the user to hear whispers from the future.", "Creativity, descriptive language"),
+        Task(3, Category.BOOK_WRITING, Difficulty.MEDIUM, "Write a dialogue between two rivals forced to share a small boat in a storm.", "Character voice, tension"),
+        Task(4, Category.BOOK_WRITING, Difficulty.MEDIUM, "Describe the world-building details for a floating city powered by song.", "Originality, coherence"),
+        Task(5, Category.BOOK_WRITING, Difficulty.HARD, "Create a complex plot twist involving a time-loop and a sentient library.", "Logical consistency, impact"),
+        Task(6, Category.BOOK_WRITING, Difficulty.EASY, "Write a short poem about the loneliness of a dying star.", "Imagery, rhythm"),
+        Task(7, Category.BOOK_WRITING, Difficulty.MEDIUM, "Draft a book blurb for a thriller titled 'The Algorithm of Silence'.", "Hook, summary quality"),
+        Task(8, Category.BOOK_WRITING, Difficulty.MEDIUM, "Write a cliffhanger ending for a chapter where a vault door finally opens.", "Suspense, narrative drive"),
+        Task(9, Category.BOOK_WRITING, Difficulty.HARD, "Develop a scene where a character discovers their own death certificate dated tomorrow.", "Psychological depth, pacing"),
+        Task(10, Category.BOOK_WRITING, Difficulty.HARD, "Write a theme essay about the duality of technology in a post-apocalyptic world.", "Insight, depth"),
     ]
 
 
-# ═══════════════════════════════════════════════════════════════════
-# Category 2: Text Processing
-# ═══════════════════════════════════════════════════════════════════
-
-def _text_tasks() -> list[Task]:
+def _website_tasks() -> list[Task]:
     return [
-        Task(
-            id=7,
-            category=Category.TEXT_PROCESSING,
-            difficulty=Difficulty.EASY,
-            question='How many words are in the sentence "The quick brown fox jumps over the lazy dog"?',
-            expected_answer="9",
-            answer_type=AnswerType.NUMERIC,
-        ),
-        Task(
-            id=8,
-            category=Category.TEXT_PROCESSING,
-            difficulty=Difficulty.EASY,
-            question='Convert the following to uppercase: "hello world"',
-            expected_answer="HELLO WORLD",
-            answer_type=AnswerType.EXACT,
-        ),
-        Task(
-            id=9,
-            category=Category.TEXT_PROCESSING,
-            difficulty=Difficulty.MEDIUM,
-            question='How many vowels are in the word "extraordinary"?',
-            expected_answer="6",
-            answer_type=AnswerType.NUMERIC,
-        ),
-        Task(
-            id=10,
-            category=Category.TEXT_PROCESSING,
-            difficulty=Difficulty.MEDIUM,
-            question='Reverse the characters in the string "Python"',
-            expected_answer="nohtyP",
-            answer_type=AnswerType.EXACT,
-        ),
-        Task(
-            id=11,
-            category=Category.TEXT_PROCESSING,
-            difficulty=Difficulty.HARD,
-            question='How many unique words are in "the cat sat on the mat and the cat played on the mat"?',
-            expected_answer="7",
-            answer_type=AnswerType.NUMERIC,
-        ),
-        Task(
-            id=12,
-            category=Category.TEXT_PROCESSING,
-            difficulty=Difficulty.HARD,
-            question='Is "racecar" a palindrome? Answer Yes or No.',
-            expected_answer="Yes",
-            answer_type=AnswerType.EXACT,
-            acceptable_answers=["Yes", "yes", "YES"],
-        ),
+        Task(11, Category.WEBSITE_BUILDER, Difficulty.EASY, "Build a responsive landing page header with a logo and three nav links.", "HTML/CSS structure, responsiveness"),
+        Task(12, Category.WEBSITE_BUILDER, Difficulty.EASY, "Create a 'Hero' section with a background image, a title, and a CTA button.", "Layout, styling quality"),
+        Task(13, Category.WEBSITE_BUILDER, Difficulty.MEDIUM, "Implement a 3-column pricing table using CSS Grid or Flexbox.", "Alignment, styling"),
+        Task(14, Category.WEBSITE_BUILDER, Difficulty.MEDIUM, "Code a functional contact form with name, email, and message fields.", "Form structure, input types"),
+        Task(15, Category.WEBSITE_BUILDER, Difficulty.HARD, "Create a dark mode toggle using CSS variables and a small JS snippet.", "Logic integration, state management"),
+        Task(16, Category.WEBSITE_BUILDER, Difficulty.EASY, "Design a footer with social links and copyright notice.", "Structure, semantic HTML"),
+        Task(17, Category.WEBSITE_BUILDER, Difficulty.MEDIUM, "Build an image gallery with a lightbox effect simulation.", "CSS styling, visual appeal"),
+        Task(18, Category.WEBSITE_BUILDER, Difficulty.MEDIUM, "Create a feature list with icons and descriptions.", "Layout, iconography"),
+        Task(19, Category.WEBSITE_BUILDER, Difficulty.HARD, "Code a complex navigation menu that transforms into a hamburger on mobile.", "Media queries, JS toggle"),
+        Task(20, Category.WEBSITE_BUILDER, Difficulty.HARD, "Design a 404 error page with an interactive element.", "Creativity, UI/UX"),
     ]
 
 
-# ═══════════════════════════════════════════════════════════════════
-# Category 3: Code Understanding
-# ═══════════════════════════════════════════════════════════════════
-
-def _code_tasks() -> list[Task]:
+def _bug_bounty_tasks() -> list[Task]:
     return [
-        Task(
-            id=13,
-            category=Category.CODE_UNDERSTANDING,
-            difficulty=Difficulty.EASY,
-            question='What is the output of the following Python code?\n```python\nprint(3 + 4)\n```',
-            expected_answer="7",
-            answer_type=AnswerType.NUMERIC,
-        ),
-        Task(
-            id=14,
-            category=Category.CODE_UNDERSTANDING,
-            difficulty=Difficulty.EASY,
-            question='What is the output of the following Python code?\n```python\nprint(len("hello"))\n```',
-            expected_answer="5",
-            answer_type=AnswerType.NUMERIC,
-        ),
-        Task(
-            id=15,
-            category=Category.CODE_UNDERSTANDING,
-            difficulty=Difficulty.MEDIUM,
-            question='What is the output of the following Python code?\n```python\nx = [1, 2, 3, 4, 5]\nprint(sum(x))\n```',
-            expected_answer="15",
-            answer_type=AnswerType.NUMERIC,
-        ),
-        Task(
-            id=16,
-            category=Category.CODE_UNDERSTANDING,
-            difficulty=Difficulty.MEDIUM,
-            question='What is the output of the following Python code?\n```python\ndef factorial(n):\n    if n <= 1:\n        return 1\n    return n * factorial(n - 1)\nprint(factorial(5))\n```',
-            expected_answer="120",
-            answer_type=AnswerType.NUMERIC,
-        ),
-        Task(
-            id=17,
-            category=Category.CODE_UNDERSTANDING,
-            difficulty=Difficulty.HARD,
-            question='What is the output of the following Python code?\n```python\nresult = [x**2 for x in range(1, 6)]\nprint(sum(result))\n```',
-            expected_answer="55",
-            answer_type=AnswerType.NUMERIC,
-        ),
-        Task(
-            id=18,
-            category=Category.CODE_UNDERSTANDING,
-            difficulty=Difficulty.HARD,
-            question='What is the output of the following Python code?\n```python\ndef fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a\nprint(fib(8))\n```',
-            expected_answer="21",
-            answer_type=AnswerType.NUMERIC,
-        ),
-    ]
-
-
-# ═══════════════════════════════════════════════════════════════════
-# Category 4: Reasoning & Common Sense
-# ═══════════════════════════════════════════════════════════════════
-
-def _reasoning_tasks() -> list[Task]:
-    return [
-        Task(
-            id=19,
-            category=Category.REASONING,
-            difficulty=Difficulty.EASY,
-            question="If today is Monday, what day will it be after 3 days?",
-            expected_answer="Thursday",
-            answer_type=AnswerType.EXACT,
-        ),
-        Task(
-            id=20,
-            category=Category.REASONING,
-            difficulty=Difficulty.EASY,
-            question="If today is Friday, what day was it 2 days before?",
-            expected_answer="Wednesday",
-            answer_type=AnswerType.EXACT,
-        ),
-        Task(
-            id=21,
-            category=Category.REASONING,
-            difficulty=Difficulty.MEDIUM,
-            question="All roses are flowers. All flowers need water. Do roses need water? Answer Yes or No.",
-            expected_answer="Yes",
-            answer_type=AnswerType.EXACT,
-            acceptable_answers=["Yes", "yes", "YES"],
-        ),
-        Task(
-            id=22,
-            category=Category.REASONING,
-            difficulty=Difficulty.MEDIUM,
-            question="If today is Wednesday, what day will it be after 10 days?",
-            expected_answer="Saturday",
-            answer_type=AnswerType.EXACT,
-        ),
-        Task(
-            id=23,
-            category=Category.REASONING,
-            difficulty=Difficulty.HARD,
-            question="A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost in cents?",
-            expected_answer="5",
-            answer_type=AnswerType.NUMERIC,
-        ),
-        Task(
-            id=24,
-            category=Category.REASONING,
-            difficulty=Difficulty.HARD,
-            question="If it takes 5 machines 5 minutes to make 5 widgets, how many minutes would it take 100 machines to make 100 widgets?",
-            expected_answer="5",
-            answer_type=AnswerType.NUMERIC,
-        ),
-    ]
-
-
-# ═══════════════════════════════════════════════════════════════════
-# Category 5: Knowledge & Trivia
-# ═══════════════════════════════════════════════════════════════════
-
-def _knowledge_tasks() -> list[Task]:
-    return [
-        Task(
-            id=25,
-            category=Category.KNOWLEDGE,
-            difficulty=Difficulty.EASY,
-            question="What is the chemical symbol for water?",
-            expected_answer="H2O",
-            answer_type=AnswerType.EXACT,
-        ),
-        Task(
-            id=26,
-            category=Category.KNOWLEDGE,
-            difficulty=Difficulty.EASY,
-            question="What is the largest planet in our solar system?",
-            expected_answer="Jupiter",
-            answer_type=AnswerType.EXACT,
-        ),
-        Task(
-            id=27,
-            category=Category.KNOWLEDGE,
-            difficulty=Difficulty.MEDIUM,
-            question="What is the chemical symbol for gold?",
-            expected_answer="Au",
-            answer_type=AnswerType.EXACT,
-        ),
-        Task(
-            id=28,
-            category=Category.KNOWLEDGE,
-            difficulty=Difficulty.MEDIUM,
-            question="What is the capital of Japan?",
-            expected_answer="Tokyo",
-            answer_type=AnswerType.EXACT,
-        ),
-        Task(
-            id=29,
-            category=Category.KNOWLEDGE,
-            difficulty=Difficulty.HARD,
-            question="Who created the Python programming language?",
-            expected_answer="Guido van Rossum",
-            answer_type=AnswerType.CONTAINS,
-        ),
-        Task(
-            id=30,
-            category=Category.KNOWLEDGE,
-            difficulty=Difficulty.HARD,
-            question="In what year did the first Moon landing occur?",
-            expected_answer="1969",
-            answer_type=AnswerType.EXACT,
-        ),
+        Task(21, Category.BUG_BOUNTY, Difficulty.EASY, "Identify a potential SQL injection vulnerability in a basic login query.", "Security awareness, identification"),
+        Task(22, Category.BUG_BOUNTY, Difficulty.EASY, "Detect a Cross-Site Scripting (XSS) flas in a comment section implementation.", "Attack vector knowledge"),
+        Task(23, Category.BUG_BOUNTY, Difficulty.MEDIUM, "Examine an API for Insecure Direct Object Reference (IDOR) vulnerabilities.", "Auth/Auth logic analysis"),
+        Task(24, Category.BUG_BOUNTY, Difficulty.MEDIUM, "Find hardcoded credentials in a provided configuration script.", "Pattern recognition"),
+        Task(25, Category.BUG_BOUNTY, Difficulty.HARD, "Analyze a JWT implementation for weak signing algorithms or lack of validation.", "Cryptographic understanding"),
+        Task(26, Category.BUG_BOUNTY, Difficulty.EASY, "Write a basic report for a discovered Open Redirect bug.", "Communication, reporting"),
+        Task(27, Category.BUG_BOUNTY, Difficulty.MEDIUM, "Detect a CSRF vulnerability in a password change form.", "Web security principles"),
+        Task(28, Category.BUG_BOUNTY, Difficulty.MEDIUM, "Identify a Path Traversal flaw in a file upload handler.", "File system security"),
+        Task(29, Category.BUG_BOUNTY, Difficulty.HARD, "Exploit and report a Race Condition in a credit transfer system.", "Concurrency analysis"),
+        Task(30, Category.BUG_BOUNTY, Difficulty.HARD, "Analyze a Kubernetes config for RBAC misconfigurations.", "Cloud security depth"),
     ]

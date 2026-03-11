@@ -14,29 +14,28 @@ class Difficulty(str, Enum):
 
 
 class AnswerType(str, Enum):
-    EXACT = "exact"           # Must match exactly (case-insensitive)
-    NUMERIC = "numeric"       # Must be numerically equal (with tolerance)
-    CONTAINS = "contains"     # Answer must contain the expected string
-    ONE_OF = "one_of"         # Answer must be one of several acceptable answers
+    EXACT = "exact"
+    NUMERIC = "numeric"
+    CONTAINS = "contains"
+    ONE_OF = "one_of"
+    RUBRIC = "rubric"         # Evaluation based on quality criteria
 
 
 class Category(str, Enum):
-    MATH_LOGIC = "Math & Logic"
-    TEXT_PROCESSING = "Text Processing"
-    CODE_UNDERSTANDING = "Code Understanding"
-    REASONING = "Reasoning & Common Sense"
-    KNOWLEDGE = "Knowledge & Trivia"
+    BOOK_WRITING = "Book Writing"
+    WEBSITE_BUILDER = "Website Builder"
+    BUG_BOUNTY = "Bug Bounty"
 
 
 @dataclass
 class Task:
-    """A single task for agents to solve."""
+    """A single benchmark task for LLMs."""
     id: int
     category: Category
     difficulty: Difficulty
     question: str
-    expected_answer: str
-    answer_type: AnswerType = AnswerType.EXACT
+    expected_answer: str = "" # Reference or criteria description
+    answer_type: AnswerType = AnswerType.RUBRIC
     acceptable_answers: list[str] = field(default_factory=list)
     metadata: dict[str, Any] = field(default_factory=dict)
 

@@ -1,28 +1,31 @@
 """
-Agent Arena — Main Entry Point
+LLM Benchmark Arena — Main Entry Point
 
-Run the full arena competition between 3 agents on 30 tasks.
-Usage: python main.py
+Benchmarks Opus, GPT 5.4, and Grok 4.2 across Book Writing, 
+Website Building, and Bug Bounty tasks.
 """
 
-from src.agents import ReActAgent, ChainOfThoughtAgent, DirectAgent
+from src.agents import OpusAgent, GptAgent, GrokAgent
 from src.tasks import get_all_tasks
 from src.arena import ArenaRunner
-
+import os
 
 def main():
+    # Set encoding for Windows emoji support
+    os.environ['PYTHONIOENCODING'] = 'utf-8'
+    
     print()
-    print("🏟️  Agent Arena — Initializing...")
+    print("🏆  LLM BENCHMARK ARENA — Opus vs GPT 5.4 vs Grok 4.2  🏆")
     print()
 
     # Create agents
     agents = [
-        ReActAgent(),
-        ChainOfThoughtAgent(),
-        DirectAgent(),
+        OpusAgent(),
+        GptAgent(),
+        GrokAgent(),
     ]
 
-    print(f"  Agents loaded: {len(agents)}")
+    print(f"  Models loaded: {len(agents)}")
     for agent in agents:
         print(f"    • {agent.name}: {agent.description}")
 
@@ -38,8 +41,8 @@ def main():
         print(f"    • {cat}: {count} tasks")
 
     # Run the arena
-    print("\n  Running competition...")
-    print("  " + "─" * 50)
+    print("\n  Starting benchmark evaluation...")
+    print("  " + "─" * 60)
 
     runner = ArenaRunner(agents=agents, tasks=tasks)
     runner.run(verbose=True)

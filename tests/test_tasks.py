@@ -1,26 +1,25 @@
-"""Tests for the new LLM benchmark task bank."""
+"""Tests for the 100-task empirical task bank."""
 
 import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from src.tasks import get_all_tasks, get_tasks_by_category
-from src.tasks.task import Category, Difficulty
+from src.tasks import get_all_tasks
+from src.tasks.task import Category
 
 
-class TestTaskBank:
-    def test_total_tasks(self):
+class TestEmpiricalTaskBank:
+    def test_total_task_count(self):
         tasks = get_all_tasks()
-        assert len(tasks) == 30
+        assert len(tasks) == 100
 
-    def test_categories(self):
+    def test_domain_distribution(self):
         tasks = get_all_tasks()
-        cats = set(t.category for t in tasks)
-        assert Category.BOOK_WRITING in cats
-        assert Category.WEBSITE_BUILDER in cats
-        assert Category.BUG_BOUNTY in cats
-
-    def test_count_per_category(self):
-        assert len(get_tasks_by_category(Category.BOOK_WRITING)) == 10
-        assert len(get_tasks_by_category(Category.WEBSITE_BUILDER)) == 10
-        assert len(get_tasks_by_category(Category.BUG_BOUNTY)) == 10
+        cats = [t.category for t in tasks]
+        
+        # 20 tasks per category
+        assert cats.count(Category.CODING) == 20
+        assert cats.count(Category.RESEARCH) == 20
+        assert cats.count(Category.PLANNING) == 20
+        assert cats.count(Category.LOGIC) == 20
+        assert cats.count(Category.DATA) == 20

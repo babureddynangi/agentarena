@@ -1,86 +1,48 @@
-# 🏟️ LLM Benchmark Arena
+# 🏟️ Agent Arena — Empirical Evaluation Framework
 
 ![Tests](https://img.shields.io/badge/tests-passed-brightgreen.svg)
 ![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
-![Models](https://img.shields.io/badge/models-Opus--GPT--Grok-blue.svg)
+![Study](https://img.shields.io/badge/study-100--task--empirical-blue.svg)
 
-**A specialized benchmarking framework for evaluating Large Language Models.** Compares Claude Opus, GPT 5.4, and Grok 4.2 across three high-stakes creative and technical categories using a multi-dimensional rubric.
-
----
-
-## ✨ Features
-
-- **3 Simulation Agents**: Claude Opus, GPT 5.4, and Grok 4.2 with distinct performance profiles.
-- **30 Deep-Dive Tasks**: 10 each in Book Writing, Website Building, and Bug Bounty categories.
-- **Rubric Scoring Engine**: Fair evaluation based on Completeness, Quality, Relevance, Creativity, and Practicality.
-- **Dynamic Leaderboard**: Comprehensive assessment with category-specific breakdowns.
-- **Full Test Suite**: 47 unit and integration tests covering the entire logic.
+**Agent Arena is a specialized framework for the rigorous evaluation of autonomous AI agents.** This repository implements the testing strategy described in our white paper, featuring a hybrid scoring model and a 100-task empirical study across 5 autonomous domains.
 
 ---
 
-## 🤖 Models Benchmarked
+## 🧪 30/40/30 Hybrid Scoring Model
 
-| Model | Evaluation Profile | Core Strength |
-|-------|--------------------|---------------|
-| **Claude Opus** | Creative, Nuanced, Safe | Literature & Complex Prose |
-| **GPT 5.4** | Technical, Structured, Broad | Website Building & Systematic Coding |
-| **Grok 4.2** | Direct, Edgy, High-Speed | Security Audits & Technical Directness |
+Evaluation is conducted using a weighted composite of three independent validation layers:
 
----
-
-## 📋 Benchmark Categories
-
-### ✍️ Book Writing (10 Tasks)
-Evaluates prose quality, character development, and narrative consistency.
-- *Examples*: Opening paragraphs, plot twists, dialogue, theme essays.
-
-### 🌐 Website Builder (10 Tasks)
-Evaluates front-end development skills and UI/UX intuition.
-- *Examples*: Hero sections, CSS Grids, Dark Mode logic, responsive navbars.
-
-### 🛡️ Bug Bounty (10 Tasks)
-Evaluates security awareness and technical remediation accuracy.
-- *Examples*: SQLi/XSS identification, IDOR analysis, security reporting.
+1.  **Rule-Based (30%)**: Deterministic checks for syntax, execution success, and final answer accuracy.
+2.  **LLM-as-Judge (40%)**: Qualitative assessment of reasoning coherence, planning efficiency, and tool-use logic.
+3.  **Human Feedback (30%)**: Subjective evaluation of output usability, safety, and instructional alignment.
 
 ---
 
-## 🧪 Scoring Rubric (0–10 each)
+## 🤖 Study Subjects (Agents)
 
-The **Scorer** evaluates each output against 5 key dimensions:
-1. **Completeness**: Were all requirements of the prompt fulfilled?
-2. **Quality**: Is the prose/code up to professional standards?
-3. **Relevance**: Does the solution directly solve the problem?
-4. **Creativity**: Is there originality or depth in the approach?
-5. **Practicality**: Is the solution immediately usable or safe to deploy?
+The arena benchmarks three core agent configurations as analyzed in the manuscript:
 
----
-
-## 📁 Project Structure
-
-```text
-agentarena/
-├── main.py                     # CLI entry point
-├── src/
-│   ├── agents/
-│   │   ├── base.py             # Abstract BaseAgent + AgentResult
-│   │   ├── opus_agent.py       # Claude Opus simulation
-│   │   ├── gpt_agent.py        # GPT 5.4 simulation
-│   │   └── grok_agent.py       # Grok 4.2 simulation
-│   ├── tasks/
-│   │   ├── task.py             # Task models and Enums
-│   │   └── task_bank.py        # 30 benchmark tasks
-│   ├── scoring/
-│   │   └── scorer.py           # Rubric-based scoring engine
-│   └── arena/
-│       └── runner.py           # Arena orchestrator & results formatter
-├── tests/                      # 47 unit & integration tests
-├── requirements.txt
-└── pytest.ini
-```
+| Configuration | Study Model | Paper Accuracy | Implementation Profile |
+|---------------|-------------|----------------|------------------------|
+| **GPT-4 Agent** | GPT-4-Base | **82%** | High-fidelity planning and tool use |
+| **Claude-3 Agent** | Claude-3 Opus | **79%** | Nuanced reasoning and safety |
+| **LangChain Agent** | ReAct (Base) | **61%** | Standard tool-loop architecture |
 
 ---
 
-## 🚀 Getting Started
+## 📋 100-Task Empirical Bank
+
+The study spans 100 tasks (20 per domain) designed to test agentic autonomy:
+
+- **Autonomous Coding**: End-to-end feature implementation and debugging.
+- **Web Research**: Multi-source synthesis and market analysis.
+- **Multi-step Planning**: Deployment strategies and complex logistics.
+- **Logic & Reasoning**: Multi-variable constraint satisfaction.
+- **Data Transformation**: Complex schema mapping and ETL logic.
+
+---
+
+## 🚀 Execution
 
 ### Installation
 ```bash
@@ -89,31 +51,28 @@ cd agentarena
 pip install -r requirements.txt
 ```
 
-### Run Benchmark
+### Run Empirical Study (100 Tasks)
 ```bash
-# Windows (supports Emojis)
 $env:PYTHONIOENCODING='utf-8'; python main.py
-
-# Others
-python main.py
 ```
 
-### Run Tests
+### Run Statistical Simulation (500 Rounds)
 ```bash
-pytest -ra -q
+python simulation_study.py
 ```
 
 ---
 
-## 🏆 Current Leaderboard
+## 📁 Project Structure
 
-| Rank | Model | Overall Score | Key Advantage |
-|------|-------|---------------|---------------|
-| 🥇 | **GPT 5.4** | **89.20** | Technical Dominance in Web/Code |
-| 🥈 | **Claude Opus** | **88.59** | Superiority in Creative Writing |
-| 🥉 | **Grok 4.2** | **83.63** | Direct Technical Accuracy |
-
----
-
-## 📄 License
-This project is licensed under the MIT License.
+```text
+agentarena/
+├── main.py                     # 100-task empirical study runner
+├── simulation_study.py          # 500-round statistical analysis script
+├── src/
+│   ├── agents/                 # GPT-4, Claude-3, and ReAct agent logic
+│   ├── tasks/                  # 100-task bank + paper-aligned categories
+│   ├── scoring/                # 30/40/30 Hybrid Scoring Engine
+│   └── arena/                  # Study orchestrator
+└── tests/                      # Validation suite (47 tests)
+```

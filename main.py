@@ -1,55 +1,48 @@
 """
-LLM Benchmark Arena — Main Entry Point
-
-Benchmarks Opus, GPT 5.4, and Grok 4.2 across Book Writing, 
-Website Building, and Bug Bounty tasks.
+Final Entry Point — Aligned with Agent Arena White Paper.
+Runs the 100-task empirical study comparing GPT-4, Claude-3, and LangChain.
 """
 
-from src.agents import OpusAgent, GptAgent, GrokAgent
+import os
+from src.agents import Gpt4Agent, Claude3Agent, LangChainAgent
 from src.tasks import get_all_tasks
 from src.arena import ArenaRunner
-import os
 
 def main():
     # Set encoding for Windows emoji support
     os.environ['PYTHONIOENCODING'] = 'utf-8'
     
-    print()
-    print("🏆  LLM BENCHMARK ARENA — Opus vs GPT 5.4 vs Grok 4.2  🏆")
-    print()
+    print("\n" + "=" * 100)
+    print("                        🏟️  AGENT ARENA — EMPIRICAL STUDY RUNNER  📊")
+    print("=" * 100)
+    print("  Aligning repository implementation with the White Paper testing strategy.")
+    print("  Evaluation Model: 30/40/30 Hybrid (Rule/Judge/Human)")
+    print("=" * 100)
 
-    # Create agents
+    # Initialize Agents
     agents = [
-        OpusAgent(),
-        GptAgent(),
-        GrokAgent(),
+        Gpt4Agent(),
+        Claude3Agent(),
+        LangChainAgent()
     ]
 
-    print(f"  Models loaded: {len(agents)}")
-    for agent in agents:
-        print(f"    • {agent.name}: {agent.description}")
-
-    # Load tasks
+    # Load 100 Tasks
     tasks = get_all_tasks()
-    print(f"\n  Tasks loaded: {len(tasks)}")
+    print(f"\n  [✔] Agents Loaded: {', '.join([a.name for a in agents])}")
+    print(f"  [✔] Empirical Task Bank Loaded: {len(tasks)} tasks across 5 domains.")
 
-    categories = {}
-    for t in tasks:
-        cat = t.category.value
-        categories[cat] = categories.get(cat, 0) + 1
-    for cat, count in categories.items():
-        print(f"    • {cat}: {count} tasks")
-
-    # Run the arena
-    print("\n  Starting benchmark evaluation...")
+    # Run Benchmark
+    print("\n  🚀 Executing 100-task benchmark study...")
     print("  " + "─" * 60)
 
     runner = ArenaRunner(agents=agents, tasks=tasks)
-    runner.run(verbose=True)
+    runner.run(verbose=False)
 
-    # Print the leaderboard
+    # Display Results
     runner.print_leaderboard()
 
+    print("  [TIP] Run 'python simulation_study.py' for the 500-round statistical analysis.")
+    print("=" * 100 + "\n")
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,6 @@
 from .base import BaseAgent, AgentResult
-from .opus_agent import OpusAgent
-from .gpt_agent import GptAgent
-from .grok_agent import GrokAgent
+from .gpt4_agent import Gpt4Agent
+from .claude3_agent import Claude3Agent
+from .langchain_agent import LangChainAgent
 
-__all__ = ["BaseAgent", "AgentResult", "OpusAgent", "GptAgent", "GrokAgent"]
+__all__ = ["BaseAgent", "AgentResult", "Gpt4Agent", "Claude3Agent", "LangChainAgent"]

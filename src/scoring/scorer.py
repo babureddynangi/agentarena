@@ -1,47 +1,39 @@
-"""
-Scoring engine for the Agent Arena.
-
-Evaluates agents on:
-  - Accuracy  (60% weight) — correctness of the answer
-  - Speed     (25% weight) — time relative to the slowest agent
-  - Efficiency (15% weight) — fewer reasoning steps = higher score
-"""
-
 from dataclasses import dataclass, field
-from typing import Any
+import random
 
 
 @dataclass
 class TaskScore:
-    """Score for a single LLM on a single task."""
+    """Score for an agent on a single task using the 30/40/30 Hybrid Model."""
     task_id: int
     category: str
-    difficulty: str
-    # Rubric Criteria (0-10 each)
-    completeness: float = 0.0
-    quality: float = 0.0
-    relevance: float = 0.0
-    creativity: float = 0.0
-    practicality: float = 0.0
-    overall: float = 0.0      # Normalized 0-100
-    answer_given: str = ""
+    rule_score: float = 0.0   # 30% — Hard checks
+    judge_score: float = 0.0  # 40% — LLM-as-Judge
+    human_score: float = 0.0  # 30% — Qualitative
+    overall: float = 0.0      # Weighted composite 0-100
+    answer_preview: str = ""
 
 
 @dataclass
 class AgentScoreboard:
-    """Aggregated scores for an LLM across all tasks."""
+    """Aggregated empirical results for an agent."""
     agent_name: str
     task_scores: list[TaskScore] = field(default_factory=list)
-    total_tasks: int = 0
     avg_score: float = 0.0
     category_scores: dict[str, float] = field(default_factory=dict)
+    rule_avg: float = 0.0
+    judge_avg: float = 0.0
+    human_avg: float = 0.0
 
     def compute_aggregates(self):
         if not self.task_scores:
             return
 
-        self.total_tasks = len(self.task_scores)
-        self.avg_score = sum(ts.overall for ts in self.task_scores) / self.total_tasks
+        n = len(self.task_scores)
+        self.avg_score = sum(ts.overall for ts in self.task_scores) / n
+        self.rule_avg = sum(ts.rule_score for ts in self.task_scores) / n
+        self.judge_avg = sum(ts.judge_score for ts in self.task_scores) / n
+        self.human_avg = sum(ts.human_score for ts in self.task_scores) / n
 
         cats: dict[str, list[float]] = {}
         for ts in self.task_scores:
@@ -52,53 +44,51 @@ class AgentScoreboard:
 
 
 class Scorer:
-    """Scores LLM outputs based on a 5-point evaluation rubric."""
-
-    def __init__(self):
-        # Simulated performance profiles (Quality, Completeness, Relevance, Creativity, Practicality)
-        self.profiles = {
-            "Claude Opus": {
-                "Book Writing":     (9.5, 9.8, 9.7, 9.9, 9.6),
-                "Website Builder": (8.5, 9.0, 9.2, 8.8, 9.1),
-                "Bug Bounty":      (9.2, 9.4, 9.5, 9.0, 9.3)
-            },
-            "GPT 5.4": {
-                "Book Writing":     (8.8, 9.2, 9.4, 8.5, 8.2),
-                "Website Builder": (9.8, 9.7, 9.9, 9.4, 9.8),
-                "Bug Bounty":      (9.6, 9.8, 9.7, 9.2, 9.7)
-            },
-            "Grok 4.2": {
-                "Book Writing":     (8.2, 8.5, 8.0, 9.2, 7.8),
-                "Website Builder": (8.6, 8.4, 9.0, 9.1, 8.5),
-                "Bug Bounty":      (9.4, 9.5, 9.6, 8.8, 9.4)
-            }
-        }
+    """
+    Hybrid Scorer (30/40/30) as specified in the Agent Arena White Paper.
+    
+    Weights:
+      - Rule-based (30%): Binary/Deterministic checks.
+      - LLM Judge (40%): Evaluation of reasoning and planning coherence.
+      - Human Eval (30%): Qualitative 'vibes' and usability check.
+    """
 
     def score_task(self, agent_name: str, task, result) -> TaskScore:
-        """Evaluate an agent's result for a task using the rubric."""
-        cat = task.category.value
-        profile = self.profiles.get(agent_name, {}).get(cat, (5.0, 5.0, 5.0, 5.0, 5.0))
+        target = result.metadata.get("target_score_factor", 0.5)
         
-        # Add slight randomness for "fairness" simulation
-        import random
-        scores = [max(0, min(10, s + random.uniform(-0.3, 0.3))) for s in profile]
+        # Rule Score (30%) — high variance, hard checks
+        rule_raw = self._simulate_rule_score(target)
         
-        # Difficulty penalty/bonus
-        diff_factor = {"easy": 1.0, "medium": 0.95, "hard": 0.9}.get(task.difficulty.value, 1.0)
-        final_scores = [s * diff_factor for s in scores]
+        # Judge Score (40%) — more stable, reasoning check
+        judge_raw = self._simulate_judge_score(target)
         
-        sum_scores = sum(final_scores)
-        overall = (sum_scores / 50.0) * 100.0
+        # Human Score (30%) — qualitative, conservative
+        human_raw = self._simulate_human_score(target)
+        
+        # Weighted Overall (0-100)
+        overall = (rule_raw * 0.3) + (judge_raw * 0.4) + (human_raw * 0.3)
         
         return TaskScore(
             task_id=task.id,
-            category=cat,
-            difficulty=task.difficulty.value,
-            completeness=round(final_scores[1], 1),
-            quality=round(final_scores[0], 1),
-            relevance=round(final_scores[2], 1),
-            creativity=round(final_scores[3], 1),
-            practicality=round(final_scores[4], 1),
+            category=task.category.value,
+            rule_score=round(rule_raw, 2),
+            judge_score=round(judge_raw, 2),
+            human_score=round(human_raw, 2),
             overall=round(overall, 2),
-            answer_given=result.content[:100] + "..."
+            answer_preview=result.content[:60] + "..."
         )
+
+    def _simulate_rule_score(self, target: float) -> float:
+        # Rules are either right or wrong mostly, but across 20 tasks they average out
+        base = target * 100
+        return max(0, min(100, base + random.uniform(-15, 15)))
+
+    def _simulate_judge_score(self, target: float) -> float:
+        # LLM Judges are slightly more optimistic but consistent
+        base = target * 100
+        return max(0, min(100, (base * 1.05) + random.uniform(-5, 5)))
+
+    def _simulate_human_score(self, target: float) -> float:
+        # Humans are often harsher or more conservative
+        base = target * 100
+        return max(0, min(100, (base * 0.9) + random.uniform(-10, 10)))

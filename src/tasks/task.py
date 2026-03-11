@@ -14,17 +14,15 @@ class Difficulty(str, Enum):
 
 
 class AnswerType(str, Enum):
-    EXACT = "exact"
-    NUMERIC = "numeric"
-    CONTAINS = "contains"
-    ONE_OF = "one_of"
-    RUBRIC = "rubric"         # Evaluation based on quality criteria
+    HYBRID = "hybrid"         # Rule (30%) + Judge (40%) + Human (30%)
 
 
 class Category(str, Enum):
-    BOOK_WRITING = "Book Writing"
-    WEBSITE_BUILDER = "Website Builder"
-    BUG_BOUNTY = "Bug Bounty"
+    CODING = "Autonomous Coding"
+    RESEARCH = "Web Research"
+    PLANNING = "Multi-step Planning"
+    LOGIC = "Logic & Reasoning"
+    DATA = "Data Transformation"
 
 
 @dataclass
@@ -34,8 +32,8 @@ class Task:
     category: Category
     difficulty: Difficulty
     question: str
-    expected_answer: str = "" # Reference or criteria description
-    answer_type: AnswerType = AnswerType.RUBRIC
+    expected_answer: str = ""
+    answer_type: AnswerType = AnswerType.HYBRID
     acceptable_answers: list[str] = field(default_factory=list)
     metadata: dict[str, Any] = field(default_factory=dict)
 

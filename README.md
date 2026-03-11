@@ -1,4 +1,4 @@
-# 🏟️ Agent Arena
+# Agent Arena
 
 A prototype evaluation framework for benchmarking autonomous AI agents across structured tasks. Current public release includes simulated agent profiles, rubric-based scoring, and a leaderboard prototype for early framework validation.
 
@@ -87,7 +87,7 @@ agentarena/
 
 ## 📚 Citation & Paper Alignment
 
-For detailed methodology, see [PAPER_ALIGNMENT.md](file:///c:/Users/USER/Downloads/agentarena/PAPER_ALIGNMENT.md).
+For detailed methodology, see [PAPER_ALIGNMENT.md](PAPER_ALIGNMENT.md).
 
 ```text
 @article{agentarena_prototype_2026,

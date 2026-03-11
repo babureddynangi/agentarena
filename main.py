@@ -13,35 +13,36 @@ def main():
     os.environ['PYTHONIOENCODING'] = 'utf-8'
     
     print("\n" + "=" * 100)
-    print("                        🏟️  AGENT ARENA — EMPIRICAL STUDY RUNNER  📊")
+    print("                        🏟️  AGENT ARENA — PROTOTYPE SIMULATION  📊")
     print("=" * 100)
-    print("  Aligning repository implementation with the White Paper testing strategy.")
-    print("  Evaluation Model: 30/40/30 Hybrid (Rule/Judge/Human)")
+    print("  Aligning repository implementation with the Agent Arena White Paper strategy.")
+    print("  Evaluation Model: 30/40/30 Hybrid Prototype (Rule/Judge/Human)")
+    print("  Note: Results represent simulated evidence for strategy validation.")
     print("=" * 100)
 
-    # Initialize Agents
+    # Initialize Aligned Prototype Agents
     agents = [
         Gpt4Agent(),
         Claude3Agent(),
         LangChainAgent()
     ]
 
-    # Load 100 Tasks
+    # Load Simulation Tasks (100)
     tasks = get_all_tasks()
-    print(f"\n  [✔] Agents Loaded: {', '.join([a.name for a in agents])}")
-    print(f"  [✔] Empirical Task Bank Loaded: {len(tasks)} tasks across 5 domains.")
+    print(f"\n  [✔] Prototype Agents Loaded: {', '.join([a.name for a in agents])}")
+    print(f"  [✔] Task Bank (Prototype): {len(tasks)} tasks across 5 paper-aligned domains.")
 
-    # Run Benchmark
-    print("\n  🚀 Executing 100-task benchmark study...")
+    # Run Simulation Benchmark
+    print("\n  🚀 Executing 100-task simulation study...")
     print("  " + "─" * 60)
 
     runner = ArenaRunner(agents=agents, tasks=tasks)
     runner.run(verbose=False)
 
-    # Display Results
+    # Display Simulation Leaderboard
     runner.print_leaderboard()
 
-    print("  [TIP] Run 'python simulation_study.py' for the 500-round statistical analysis.")
+    print("  [REF] 'python simulation_study.py' for 100-round statistical convergence.")
     print("=" * 100 + "\n")
 
 if __name__ == "__main__":

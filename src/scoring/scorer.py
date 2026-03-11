@@ -1,22 +1,24 @@
 from dataclasses import dataclass, field
 import random
+import re
 
 
 @dataclass
 class TaskScore:
-    """Score for an agent on a single task using the 30/40/30 Hybrid Model."""
+    """Score for an agent on a single task using the 30/40/30 Hybrid Prototype Model."""
     task_id: int
     category: str
-    rule_score: float = 0.0   # 30% — Hard checks
-    judge_score: float = 0.0  # 40% — LLM-as-Judge
-    human_score: float = 0.0  # 30% — Qualitative
+    rule_score: float = 0.0   # 30% — Hard structural checks
+    judge_score: float = 0.0  # 40% — Simulated Reasoning Analysis
+    human_score: float = 0.0  # 30% — Simulated Alignment/Utility
     overall: float = 0.0      # Weighted composite 0-100
     answer_preview: str = ""
+    is_simulation: bool = True
 
 
 @dataclass
 class AgentScoreboard:
-    """Aggregated empirical results for an agent."""
+    """Aggregated simulation results for an agent."""
     agent_name: str
     task_scores: list[TaskScore] = field(default_factory=list)
     avg_score: float = 0.0
@@ -43,26 +45,27 @@ class AgentScoreboard:
         }
 
 
-class Scorer:
+class AgentArenaScorer:
     """
-    Hybrid Scorer (30/40/30) as specified in the Agent Arena White Paper.
+    Agent Arena Structural Hybrid Scorer (Prototype Engine).
     
-    Weights:
-      - Rule-based (30%): Binary/Deterministic checks.
-      - LLM Judge (40%): Evaluation of reasoning and planning coherence.
-      - Human Eval (30%): Qualitative 'vibes' and usability check.
+    Implements a structural 30/40/30 weight model:
+      - Rule (30%): Pattern matching for required structural components.
+      - Judge (40%): Simulation of qualitative reasoning evaluation.
+      - Human (30%): Simulation of subjective utility.
     """
 
     def score_task(self, agent_name: str, task, result) -> TaskScore:
         target = result.metadata.get("target_score_factor", 0.5)
+        content = result.content
         
-        # Rule Score (30%) — high variance, hard checks
-        rule_raw = self._simulate_rule_score(target)
+        # 1. Rule Score (30%) - Structural validation
+        rule_raw = self._eval_structural_rules(content, task.category)
         
-        # Judge Score (40%) — more stable, reasoning check
-        judge_raw = self._simulate_judge_score(target)
+        # 2. Judge Score (40%) - Simulated reasoning depth
+        judge_raw = self._simulate_judge_score(target, content)
         
-        # Human Score (30%) — qualitative, conservative
+        # 3. Human Score (30%) - Simulated alignment
         human_raw = self._simulate_human_score(target)
         
         # Weighted Overall (0-100)
@@ -75,20 +78,33 @@ class Scorer:
             judge_score=round(judge_raw, 2),
             human_score=round(human_raw, 2),
             overall=round(overall, 2),
-            answer_preview=result.content[:60] + "..."
+            answer_preview=content[:60].replace("\n", " ") + "...",
+            is_simulation=True
         )
 
-    def _simulate_rule_score(self, target: float) -> float:
-        # Rules are either right or wrong mostly, but across 20 tasks they average out
-        base = target * 100
-        return max(0, min(100, base + random.uniform(-15, 15)))
+    def _eval_structural_rules(self, content: str, category) -> float:
+        """Structural rule checking using pattern matching markers."""
+        score = 0
+        markers = ["Methodology:", "Execution:", "Confidence:"]
+        
+        for m in markers:
+            if m.lower() in content.lower():
+                score += 33.3
+        
+        # Bonus for category-specific keywords
+        if "coding" in category.value.lower() and "import" in content.lower():
+            score += 10
+        if "research" in category.value.lower() and "analysis" in content.lower():
+            score += 10
+            
+        return min(100.0, score)
 
-    def _simulate_judge_score(self, target: float) -> float:
-        # LLM Judges are slightly more optimistic but consistent
-        base = target * 100
-        return max(0, min(100, (base * 1.05) + random.uniform(-5, 5)))
+    def _simulate_judge_score(self, target: float, content: str) -> float:
+        # Penalize short content as a 'structural' signal
+        length_penalty = 1.0 if len(content) > 100 else 0.7
+        base = target * 100 * length_penalty
+        return max(0, min(100, base + random.uniform(-5, 5)))
 
     def _simulate_human_score(self, target: float) -> float:
-        # Humans are often harsher or more conservative
         base = target * 100
-        return max(0, min(100, (base * 0.9) + random.uniform(-10, 10)))
+        return max(0, min(100, base + random.uniform(-10, 10)))

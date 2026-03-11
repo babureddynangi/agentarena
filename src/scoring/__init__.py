@@ -1,3 +1,1 @@
-from .scorer import Scorer, TaskScore, AgentScoreboard
-
-__all__ = ["Scorer", "TaskScore", "AgentScoreboard"]
+from .scorer import AgentArenaScorer, TaskScore, AgentScoreboard

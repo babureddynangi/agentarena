@@ -1,56 +1,46 @@
-# 🏟️ Agent Arena: Empirical Evaluation Framework
+# 🏟️ Agent Arena: Framework Prototype & Simulation
 
 [![Tests](https://img.shields.io/badge/tests-passed-brightgreen.svg)](file:///c:/Users/USER/Downloads/agentarena/tests/)
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
-[![Study](https://img.shields.io/badge/study-100--task--empirical-blue.svg)](#-100-task-empirical-bank)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](file:///c:/Users/USER/Downloads/agentarena/LICENSE)
+[![Status](https://img.shields.io/badge/status-prototype--simulation-orange.svg)](#-simulation-reproducibility)
 
-**Agent Arena** is a rigorous, industrial-grade framework for the quantified evaluation of autonomous AI agents. Unlike theoretical benchmarks, this repository provides a **runnable empirical environment** to validate the claims of our accompanying white paper.
+**Agent Arena** is a specialized framework prototype for the rigorous evaluation of autonomous AI agents. This repository implements the **Agent Arena Evaluation Strategy**, featuring a structural hybrid scorer and a 100-task simulation study across 5 domains.
 
----
-
-## 🎯 Why Agent Arena?
-
-In the rapidly evolving LLM landscape, "vibe-based" evaluation is no longer sufficient. Agent Arena bridge the gap between concept and reality with:
-- **Real Codebase**: A fully functional Python implementation of an agentic evaluator.
-- **Hybrid Validation**: A three-layer scoring model that captures more than just "final answers."
-- **Empirical Evidence**: Proven convergence to white paper results (GPT-4 82%, Claude 79%, LangChain 61%).
+> [!IMPORTANT]
+> **Prototype Disclaimer**: This repository contains a **simulation environment** used to validate the evaluation methodology and scoring strategies. The results presented are derived from **prototype agents** with calibrated performance profiles, not live production logs.
 
 ---
 
-## 🧪 30/40/30 Hybrid Scoring Model
+## 🧪 30/40/30 Hybrid Scoring Model (Structural Prototype)
 
-We move beyond simple string-matching. Evaluation is a weighted composite of three distinct validation layers:
+Evaluation is conducted using a weighted composite of three independent validation layers implemented in the `AgentArenaScorer`:
 
-| Layer | Weight | Focus | Mechanism |
+| Layer | Weight | Mechanism | Purpose |
 | :--- | :---: | :--- | :--- |
-| **Rule-Based** | **30%** | Reliability | Deterministic checks, syntax, and execution success. |
-| **LLM-as-Judge** | **40%** | Reasoning | Qualitative assessment of planning and tool-use logic. |
-| **Human-Eval** | **30%** | Alignment | Subjective grading of usability, safety, and coherence. |
+| **Rule-Based** | **30%** | **Pattern Matching** | Hard structural checks for markers like `Methodology:`, `Execution:`, and `Confidence:`. |
+| **Sim-Judge** | **40%** | **Calibration Profile** | Qualitative reasoning depth simulated based on the agent's target accuracy factor. |
+| **Sim-Human** | **30%** | **Stochastic Utility** | Simulated subjective alignment and usability scores with modeled variance. |
 
 ---
 
-## 🤖 Study Subjects (Agents)
+## 🤖 Subject Configurations (Model Profiles)
 
-The arena benchmarks three primary agent architectures modeled after our empirical study:
+The prototype benchmarks three core agent configurations with calibrated performance factors:
 
-| Configuration | Core Model | Accuracy | Profile |
-| :--- | :--- | :---: | :--- |
-| **GPT-4 Agent** | GPT-4-Base | **82%** | High-fidelity planning and broad tool-use utility. |
-| **Claude-3 Agent** | Claude-3 Opus | **79%** | Superior nuanced reasoning and safety alignment. |
-| **LangChain Agent** | ReAct (Base) | **61%** | Standard deterministic tool-loop architecture. |
+1.  **GPT-4 Agent Prototype** (Target: **82%**): Calibrated for high-fidelity structural planning.
+2.  **Claude-3 Agent Prototype** (Target: **79%**): Calibrated for nuanced reasoning and safety markers.
+3.  **LangChain Agent Prototype** (Target: **61%**): Calibrated for deterministic ReAct loop patterns.
 
 ---
 
-## 📋 100-Task Empirical Bank
+## 🧬 Simulation Reproducibility
 
-The study leverages 100 deep-dive tasks (20 per domain) to test true autonomy:
+To ensure the framework's behavior is deterministic and verifiable, the following parameters are used:
 
-*   **💻 Autonomous Coding**: Complex feature implementation and iterative debugging.
-*   **🔍 Web Research**: Multi-source synthesis and market intelligence.
-*   **📅 Multi-step Planning**: Deployment strategies and intricate logistics.
-*   **🧠 Logic & Reasoning**: Multi-variable constraint satisfaction puzzles.
-*   **📊 Data Transformation**: High-entropy schema mapping and ETL logic.
+- **Task Count**: 100 tasks (20 per domain: Coding, Research, Planning, Logic, Data).
+- **Weighting Formula**: `overall = (rule * 0.3) + (judge * 0.4) + (human * 0.3)`.
+- **Structural Markers**: Agents must emit `Methodology:`, `Execution:`, and `Confidence:` blocks to satisfy Rule-Based scoring.
+- **Convergence**: Leaderboard scores are generated across 100 simulation rounds in `simulation_study.py` to demonstrate statistical stability.
 
 ---
 
@@ -63,14 +53,12 @@ cd agentarena
 pip install -r requirements.txt
 ```
 
-### 2. Run Individual Study (100 Tasks)
-Execute the core benchmark to see internal agent performance across all domains:
+### 2. Run Single Simulation (100 Tasks)
 ```bash
 $env:PYTHONIOENCODING='utf-8'; python main.py
 ```
 
-### 3. Run Statistical Simulation (500 Rounds)
-To verify the statistical consistency and convergence reported in the paper:
+### 3. Run Statistical Convergence Study (100 Rounds)
 ```bash
 python simulation_study.py
 ```
@@ -81,27 +69,24 @@ python simulation_study.py
 
 ```text
 agentarena/
-├── main.py                     # 100-task empirical study orchestrator
-├── simulation_study.py          # 500-round statistical convergence script
+├── main.py                     # Single-run framework orchestrator
+├── simulation_study.py          # Multi-round statistical convergence tool
 ├── src/
-│   ├── agents/                 # Standardized GPT-4, Claude-3, and ReAct implementations
-│   ├── tasks/                  # 100-task bank with paper-linked categories
-│   ├── scoring/                # 30/40/30 Hybrid scoring logic
-│   └── arena/                  # Multi-threaded study runner
-└── tests/                      # Suite of 47 unit and integration tests
+│   ├── agents/                 # Calibrated Gpt4, Claude3, and LangChain prototypes
+│   ├── tasks/                  # 100-task simulation bank
+│   ├── scoring/                # AgentArenaScorer (Structural Hybrid Logic)
+│   └── arena/                  # Study runner and leaderboard formatter
+└── tests/                      # Suite of unit and integration tests
 ```
 
 ---
 
 ## 📚 Citation
 
-If you use this framework or data in your research, please cite our white paper:
-
 ```text
-@article{agentarena2026,
-  title={Agent Arena: A Hybrid 30/40/30 Framework for Autonomous Agent Evaluation},
+@article{agentarena_prototype_2026,
+  title={Agent Arena: A Framework Prototype for Autonomous Agent Evaluation},
   author={Reddy Nangi, Babureddy},
-  journal={Internal Empirical Study},
   year={2026}
 }
 ```

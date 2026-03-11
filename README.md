@@ -12,7 +12,7 @@ A prototype evaluation framework for benchmarking autonomous AI agents across st
 ---
 
 > [!CAUTION]
-> **Purpose:** Early validation of the Agent Arena benchmark architecture, **not a final production benchmark**. Current results are simulated to demonstrate framework design and statistical convergence properties as described in the accompanying white paper.
+> **Purpose:** Early validation of the Agent Arena benchmark architecture, **not a final production benchmark**. Current results validate framework mechanics via calibrated simulation; live deployment study planned for Q3 2026.
 
 ---
 
@@ -28,6 +28,7 @@ The Agent Arena framework implements a three-layer validation stack to quantify 
 
 ## 🤖 Benchmark Subjects
 
+**Table 1: Simulated Benchmark Subjects and Target Scores**
 | Agent Configuration | Target benchmark score | Implementation Profile |
 | :--- | :---: | :--- |
 | **GPT-4o Agent** | **82%** | High-fidelity planning and broad tool-use utility. |
@@ -51,6 +52,7 @@ The study leverages 100 tasks across 5 autonomous domains:
 
 The following scores reflect the statistical convergence of the prototype engine across multi-round simulations:
 
+**Table 2: Statistical Convergence Leaderboard (Simulation Evidence)**
 | Rank | Model | Overall Score | Convergence Profile |
 | :--- | :--- | :---: | :--- |
 | 🥇 | **GPT-4o Agent** | **82%** | Aligned with paper prototype findings |

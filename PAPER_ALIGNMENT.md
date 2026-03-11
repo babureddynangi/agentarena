@@ -6,10 +6,11 @@
 ---
 
 ## 1. Scope of Implementation & Simulation Validation
-This repository implements the **Evaluation Architecture** described in the paper. Crucially, it serves as the **Simulation Validation** environment used to prove the framework's mathematical design and scoring mechanics. It is distinct from the end-to-end live "empirical runs" discussed in Section 9 of the manuscript. The simulated pipeline demonstrates:
+This repository implements the **Evaluation Architecture** described in the paper. Crucially, it serves as the **Simulation Validation** environment used to prove the framework's mathematical design and scoring mechanics. Section 9 of the manuscript explicitly details this **Simulation Validation** phase. The simulated pipeline demonstrates:
 - The **30/40/30 Hybrid Scoring Engine** (Rule/Judge/Human).
 - The **100-Task Evaluation Bank** across 5 domains.
 - The **statistical convergence** of agent performance profiles.
+
 
 ## 2. Simulated Components
 Current release uses **calibration profiles** and **structural rule validation** to simulate performance:

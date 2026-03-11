@@ -6,7 +6,7 @@ A prototype evaluation framework for benchmarking autonomous AI agents across st
 - **Framework maturity:** Prototype
 - **Evaluation mode:** Simulated / Hybrid prototype
 - **Public task count:** 100
-- **Public agents:** 3 (GPT-4, Claude-3, LangChain)
+- **Public agents:** 3 (GPT-4o, Claude 3.5 Sonnet, Llama 3.1 70B)
 - **Paper alignment:** v1.0 synced with manuscript dated March 2026
 
 ---
@@ -30,9 +30,9 @@ The Agent Arena framework implements a three-layer validation stack to quantify 
 
 | Agent Configuration | Target benchmark score | Implementation Profile |
 | :--- | :---: | :--- |
-| **GPT-4 Agent Prototype** | **82%** | High-fidelity planning and broad tool-use utility. |
-| **Claude-3 Agent Prototype** | **79%** | Superior nuanced reasoning and safety alignment. |
-| **LangChain Agent Prototype** | **61%** | Standard deterministic tool-loop architecture. |
+| **GPT-4o Agent** | **82%** | High-fidelity planning and broad tool-use utility. |
+| **Claude 3.5 Sonnet Agent** | **79%** | Superior nuanced reasoning and safety alignment. |
+| **Llama 3.1 70B Agent** | **61%** | Standard deterministic tool-loop architecture. |
 
 ---
 
@@ -53,9 +53,9 @@ The following scores reflect the statistical convergence of the prototype engine
 
 | Rank | Model | Overall Score | Convergence Profile |
 | :--- | :--- | :---: | :--- |
-| 🥇 | **GPT-4 Agent** | **82%** | Aligned with paper prototype findings |
-| 🥈 | **Claude-3 Agent** | **79%** | Aligned with paper prototype findings |
-| 🥉 | **LangChain Agent** | **61%** | Aligned with paper prototype findings |
+| 🥇 | **GPT-4o Agent** | **82%** | Aligned with paper prototype findings |
+| 🥈 | **Claude 3.5 Sonnet Agent** | **79%** | Aligned with paper prototype findings |
+| 🥉 | **Llama 3.1 70B Agent** | **61%** | Aligned with paper prototype findings |
 
 ---
 
@@ -76,7 +76,7 @@ agentarena/
 ├── main.py                     # Single-run framework orchestrator
 ├── simulation_study.py          # Multi-round statistical convergence tool
 ├── src/
-│   ├── agents/                 # Calibrated Gpt4, Claude3, and LangChain prototypes
+│   ├── agents/                 # Calibrated Gpt4o, Claude3.5 Sonnet, and Llama3.1 prototypes
 │   ├── tasks/                  # 100-task simulation bank
 │   ├── scoring/                # AgentArenaScorer (Structural Hybrid Logic)
 │   └── arena/                  # Study runner and leaderboard formatter

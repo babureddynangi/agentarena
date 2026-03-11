@@ -4,7 +4,7 @@ Runs the 100-task evaluation study comparing GPT-4, Claude-3, and LangChain.
 """
 
 import os
-from src.agents import Gpt4Agent, Claude3Agent, LangChainAgent
+from src.agents import Gpt4oAgent, Claude35SonnetAgent, Llama3_1Agent
 from src.tasks import get_all_tasks
 from src.arena import ArenaRunner
 
@@ -22,9 +22,9 @@ def main():
 
     # Initialize Aligned Prototype Agents
     agents = [
-        Gpt4Agent(),
-        Claude3Agent(),
-        LangChainAgent()
+        Gpt4oAgent(),
+        Claude35SonnetAgent(),
+        Llama3_1Agent()
     ]
 
     # Load Simulation Tasks (100)

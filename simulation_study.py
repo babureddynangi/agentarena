@@ -11,7 +11,7 @@ import numpy as np
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
-from src.agents import Gpt4Agent, Claude3Agent, LangChainAgent
+from src.agents import Gpt4oAgent, Claude35SonnetAgent, Llama3_1Agent
 from src.tasks import get_all_tasks
 from src.arena import ArenaRunner
 
@@ -19,7 +19,7 @@ def run_simulation(rounds=500):
     print(f"\n[SIM] Starting {rounds}-round Statistical Prototype Study...")
     print("-" * 60)
     
-    agents = [Gpt4Agent(), Claude3Agent(), LangChainAgent()]
+    agents = [Gpt4oAgent(), Claude35SonnetAgent(), Llama3_1Agent()]
     tasks = get_all_tasks()
     runner = ArenaRunner(agents=agents, tasks=tasks)
     
